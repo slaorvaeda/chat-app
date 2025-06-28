@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Navbar from './components/Navbar';
-import { Routes ,Route, Navigate } from 'react-router-dom';
+import { Routes ,Route, Navigate, Outlet } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
@@ -31,18 +31,11 @@ function App() {
   return (
     <>
       <Navbar />
+      <Outlet />
 
 
 
-      <Routes>
-        <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
-        <Route path="/login" element={!authUser ?<LoginPage /> : <Navigate to= "/" />} />
-        <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
-        <Route path="/settings" element={<SettingPage />} />
-        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login"/>} />
-
-
-      </Routes>
+      
     </>
     );
 }
