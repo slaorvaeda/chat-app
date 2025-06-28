@@ -3,7 +3,7 @@ import {axiosInstance} from '../lib/axios';
 import {create} from 'zustand';
 
 export const useAuthStore = create((set) => ({
-    authUser: true,
+    authUser: false,
     // setAuthUser: (user) => set({ authUser: user }),
     isCheckingAuth: true,
     isSigningUp: false,
@@ -25,9 +25,12 @@ export const useAuthStore = create((set) => ({
         set({ isSigningUp: true });
         try {
             const res = await axiosInstance.post('auth/signup', formData);
-            set({ authUser: res.data, isSigningUp: false });
+            toast.success('Account created successfully! Please log in.');
+            set({ authUser: res.data });
         } catch (error) {
-            console.error('Error signing up:', error);
+            toast.error(error.response?.data?.message || 'Error signing up');
+        }
+        finally{
             set({ isSigningUp: false });
         }
     },

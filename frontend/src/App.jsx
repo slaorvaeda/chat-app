@@ -1,43 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
-import { Routes ,Route, Navigate, Outlet } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import SettingPage from './pages/SettingPage';
-import ProfilePage from './pages/ProfilePage';
+import { Outlet } from 'react-router-dom';
 import { axiosInstance } from './lib/axios';
 import { useAuthStore } from './stores/useAuthStore';
-import {Loader} from 'lucide-react';
-
+import { Loader } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
-  const {authUser,checkAuth ,isCheckingAuth} = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
-  useEffect(() =>{
+  useEffect(() => {
     checkAuth();
-  },[checkAuth]);
-
-  if (isCheckingAuth && !authUser) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-       <Loader className="animate-spin h-10 w-10 text-blue-500" />
-      </div>
-    );
-  }
-
-
+  }, [checkAuth]);
 
   return (
     <>
       <Navbar />
-      <Outlet />
+      {isCheckingAuth && !authUser ? (
+        <div className="flex items-center justify-center h-screen">
+          <Loader className="animate-spin h-10 w-10 text-blue-500" />
+        </div>
+      ) : (
+        <Outlet />
+       
+      )}
 
-
-
-      
+       <Toaster/>
     </>
-    );
+  );
 }
 
 export default App;
